@@ -2,7 +2,7 @@
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.ns.d.ts" />
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.window.d.ts" />
 
-import { Application } from "https://deno.land/x/oak@v7.1.0/mod.ts";
+import { Application } from "https://deno.land/x/oak@v7.2.0/mod.ts";
 
 const app = new Application();
 
@@ -73,20 +73,4 @@ app.use(async (ctx) => {
 });
 
 // Handle fetch events
-addEventListener("fetch", async (requestEvent) => {
-  let resolve: (response: Response) => void;
-  const p = new Promise<Response>((r) => resolve = r);
-  const r = requestEvent.respondWith(p);
-  const response = await app.handle(requestEvent.request);
-  if (response) {
-    resolve!(response);
-  } else {
-    resolve!(
-      new Response("Internal Error - Failed to return response from handler.", {
-        status: 500,
-        statusText: "InternalError",
-      }),
-    );
-  }
-  await r;
-});
+addEventListener("fetch", app.fetchEventHandler());

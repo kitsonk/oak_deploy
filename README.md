@@ -26,35 +26,12 @@ import { Application } from "https://deno.land/x/oak@v7.1.0/mod.ts";
 Yup, it is that simple!
 
 If you are familiar with oak (or Express or Koa), you would normally expect an
-`app.listen()`, but the strategy with Deno Deploy is just to "handle" the
-requests, so in this case we pass the web standard `Request` into oak and have
-it process it:
+`app.listen()`, but Deno Deploy deals with all the listening for you, so the
+app only needs to handle the `FetchEvent`s, so what we do is:
 
 ```ts
-addEventListener("fetch", async (requestEvent) => {
-  let resolve: (response: Response) => void;
-  const p = new Promise<Response>((r) => resolve = r);
-  const r = requestEvent.respondWith(p);
-  const response = await app.handle(requestEvent.request);
-  if (response) {
-    resolve!(response);
-  } else {
-    resolve!(
-      new Response("Internal Error - Failed to return response from handler.", {
-        status: 500,
-        statusText: "InternalError",
-      }),
-    );
-  }
-  await r;
-});
+addEventListener("fetch", app.fetchEventHandler());
 ```
 
-Looking at that again, it does feel a bit boiler-platey, so maybe it would be
-nice to have a helper method that gets exported, so you would just do:
-
-```ts
-addEventListener("fetch", app.fetchEventHandler);
-```
-
-(Now that I have written it, I need to do that, but maybe later).
+This will have Deno Deploy send `FetchEvent`s into our handler, and for each
+event, the middleware will be invoked and the response sent to the client.

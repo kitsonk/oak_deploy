@@ -73,11 +73,11 @@ app.use(async (ctx) => {
 });
 
 // Handle fetch events
-addEventListener("fetch", async ({ request, respondWith }) => {
+addEventListener("fetch", async (requestEvent) => {
   let resolve: (response: Response) => void;
   const p = new Promise<Response>((r) => resolve = r);
-  const r = respondWith(p);
-  const response = await app.handle(request);
+  const r = requestEvent.respondWith(p);
+  const response = await app.handle(requestEvent.request);
   if (response) {
     resolve!(response);
   } else {

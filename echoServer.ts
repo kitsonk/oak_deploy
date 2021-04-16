@@ -2,7 +2,7 @@
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.ns.d.ts" />
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.window.d.ts" />
 
-import { Application } from "https://raw.githubusercontent.com/oakserver/oak/main/mod.ts";
+import { Application } from "https://deno.land/x/oak@v7.1.0/mod.ts";
 
 const app = new Application();
 

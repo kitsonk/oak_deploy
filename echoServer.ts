@@ -25,6 +25,24 @@ const decoder = new TextDecoder();
 
 // Echo back the request body as html, if any, as part of the response.
 app.use(async (ctx) => {
+  const { originalRequest } = ctx.request;
+  console.log(`this.#request.body != null: ${originalRequest.body != null}`);
+  console.log(
+    `this.#request.headers.has("transfer-encoding"): ${
+      originalRequest.headers.has("transfer-encoding")
+    }`,
+  );
+  console.log(
+    `!!parseInt(this.#request.headers.get("content-length") ?? "", 10)`,
+    !!parseInt(
+      originalRequest.headers.get("content-length") ?? "",
+      10,
+    ),
+  );
+  console.log(
+    `this.#request.body instanceof ReadableStream: ${originalRequest
+      .body instanceof ReadableStream}`,
+  );
   if (ctx.request.hasBody) {
     const body = ctx.request.body();
     ctx.response.body = `<!DOCTYPE html><html><body>
@@ -70,6 +88,10 @@ app.use(async (ctx) => {
     ctx.response.body =
       `<!DOCTYPE html><html><body><h1>No Body</h1></body></html>`;
   }
+});
+
+app.addEventListener("error", (e) => {
+  console.log("ERROR: ", e.error);
 });
 
 // Handle fetch events

@@ -2,7 +2,7 @@
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.ns.d.ts" />
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.window.d.ts" />
 
-import { Application } from "https://deno.land/x/oak@v7.2.0/mod.ts";
+import { Application } from "https://deno.land/x/oak@v7.4.1/mod.ts";
 
 const app = new Application();
 
@@ -25,24 +25,6 @@ const decoder = new TextDecoder();
 
 // Echo back the request body as html, if any, as part of the response.
 app.use(async (ctx) => {
-  const { originalRequest } = ctx.request;
-  console.log(`this.#request.body != null: ${originalRequest.body != null}`);
-  console.log(
-    `this.#request.headers.has("transfer-encoding"): ${
-      originalRequest.headers.has("transfer-encoding")
-    }`,
-  );
-  console.log(
-    `!!parseInt(this.#request.headers.get("content-length") ?? "", 10)`,
-    !!parseInt(
-      originalRequest.headers.get("content-length") ?? "",
-      10,
-    ),
-  );
-  console.log(
-    `this.#request.body instanceof ReadableStream: ${originalRequest
-      .body instanceof ReadableStream}`,
-  );
   if (ctx.request.hasBody) {
     const body = ctx.request.body();
     ctx.response.body = `<!DOCTYPE html><html><body>

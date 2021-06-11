@@ -1,4 +1,4 @@
-import { createWorker } from "https://deno.land/x/dectyl@0.1.0/mod.ts";
+import { createWorker } from "https://deno.land/x/dectyl@0.2.0/mod.ts";
 import { assertEquals } from "https://deno.land/std@0.98.0/testing/asserts.ts";
 
 Deno.test({
@@ -6,14 +6,11 @@ Deno.test({
   async fn() {
     // Create a worker using the same script that is used with Deploy
     const helloWorld = await createWorker("./helloWorld.ts");
-    await helloWorld.start();
 
-    // Send a request into the worker "mocking" whatever data required
-    const [response] = await helloWorld.fetch("/");
+    await helloWorld.run(async function () {
+      // Send a request into the worker "mocking" whatever data required
+      const [response] = await this.fetch("/");
 
-    // If our assertions fail, the worker won't terminate, so the test will
-    // "hang", so we need to do a try...finally
-    try {
       // Make assertions against the response
       assertEquals(await response.text(), "Hello world!");
       assertEquals([...response.headers], [[
@@ -22,9 +19,6 @@ Deno.test({
       ]]);
       assertEquals(response.status, 200);
       assertEquals(response.statusText, "OK");
-    } finally {
-      // Close the worker...
-      await helloWorld.close();
-    }
+    });
   },
 });

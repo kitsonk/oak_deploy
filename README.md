@@ -8,8 +8,8 @@ The URL `https://github.com/kitsonk/echoServer.ts` is what gets deployed, and
 that is it, and every time I push to the GitHub repo, Deno Deploy will redeploy
 my application. 🪄
 
-I added these 3 lines to the top so that when I was editing the main module,
-I was getting the proper intellisense with the Deno Language Server in my IDE:
+I added these 3 lines to the top so that when I was editing the main module, I
+was getting the proper intellisense with the Deno Language Server in my IDE:
 
 ```ts
 /// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.fetchevent.d.ts" />
@@ -26,8 +26,8 @@ import { Application } from "https://deno.land/x/oak@v7.1.0/mod.ts";
 Yup, it is that simple!
 
 If you are familiar with oak (or Express or Koa), you would normally expect an
-`app.listen()`, but Deno Deploy deals with all the listening for you, so the
-app only needs to handle the `FetchEvent`s, so what we do is:
+`app.listen()`, but Deno Deploy deals with all the listening for you, so the app
+only needs to handle the `FetchEvent`s, so what we do is:
 
 ```ts
 addEventListener("fetch", app.fetchEventHandler());

@@ -18,7 +18,7 @@ app.use((ctx) => {
   </html>
   `;
 
-  Deno.env.set("OAK_WAS_HERE", "true");
+  // Deno.env.set("OAK_WAS_HERE", "true");
 });
 
 addEventListener("fetch", app.fetchEventHandler());

@@ -1,4 +1,4 @@
-import { createWorker } from "https://deno.land/x/dectyl@0.2.0/mod.ts";
+import { createWorker } from "https://deno.land/x/dectyl@0.3.0/mod.ts";
 import { assertEquals } from "https://deno.land/std@0.98.0/testing/asserts.ts";
 
 Deno.test({

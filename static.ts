@@ -2,7 +2,7 @@ import { Application, proxy } from "https://deno.land/x/oak@v7.6.1/mod.ts";
 
 const app = new Application();
 
-app.use(proxy(new URL("./", import.meta.url), {
+app.use(proxy(new URL("./static/", import.meta.url), {
   map: {
     "/": "/index.html",
   },

@@ -21,6 +21,11 @@ app.use(proxy(new URL("./static/", import.meta.url), {
   },
 }));
 
+app.use(async (ctx, next) => {
+  ctx.response.headers.delete("content-security-policy");
+  await next();
+});
+
 app.addEventListener("error", (evt) => {
   if ("stack" in evt.error) {
     console.log(evt.error.stack);

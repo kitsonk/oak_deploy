@@ -1,5 +1,8 @@
-import { Application, proxy } from "https://deno.land/x/oak@v7.6.1/mod.ts";
-import { lookup } from "https://deno.land/x/media_types@v2.9.0/mod.ts";
+import { Application, proxy } from "https://deno.land/x/oak@v7.6.2/mod.ts";
+import {
+  contentType,
+  lookup,
+} from "https://deno.land/x/media_types@v2.9.0/mod.ts";
 
 const app = new Application();
 
@@ -7,9 +10,14 @@ app.use(proxy(new URL("./static/", import.meta.url), {
   map: {
     "/": "/index.html",
   },
-  response(res) {
-    res.headers.set("content-type", lookup(res.url) ?? "text/plain");
-    return res;
+  contentType(url, ct) {
+    if (ct) {
+      ct = contentType(ct);
+    }
+    const impliedContentType = contentType(lookup(url) ?? "");
+    if (ct !== impliedContentType) {
+      return impliedContentType;
+    }
   },
 }));
 

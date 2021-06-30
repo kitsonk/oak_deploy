@@ -14,6 +14,10 @@ app.use((ctx) => {
   }</pre></p>
       <h2>Deno.env</h2>
       <p><pre>${JSON.stringify(Deno.env.toObject(), undefined, "  ")}</pre></p>
+      <h2>globalThis.location</h2>
+      <p><pre>${
+    JSON.stringify(Object.getOwnPropertyDescriptor(globalThis, "location"))
+  }</pre></p>
     </body>
   </html>
   `;

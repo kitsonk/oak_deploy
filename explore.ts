@@ -2,6 +2,13 @@ import { Application } from "https://deno.land/x/oak@v7.4.1/mod.ts";
 
 const app = new Application();
 
+Object.defineProperty(globalThis, "location", {
+  value: { protocol: "https" },
+  configurable: true,
+  writable: false,
+  enumerable: false,
+});
+
 app.use((ctx) => {
   ctx.response.body = `<!DOCTYPE html>
   <html>

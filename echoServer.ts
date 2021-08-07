@@ -1,8 +1,4 @@
-/// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.fetchevent.d.ts" />
-/// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.ns.d.ts" />
-/// <reference path="https://raw.githubusercontent.com/denoland/deployctl/main/types/deploy.window.d.ts" />
-
-import { Application } from "https://deno.land/x/oak@v7.4.1/mod.ts";
+import { Application } from "https://deno.land/x/oak@v8.0.0/mod.ts";
 
 const app = new Application();
 
@@ -76,5 +72,8 @@ app.addEventListener("error", (e) => {
   console.log("ERROR: ", e.error);
 });
 
-// Handle fetch events
-addEventListener("fetch", app.fetchEventHandler());
+app.addEventListener("listen", (e) => {
+  console.log(`Listening on http://${e.hostname}:${e.port}/`);
+});
+
+await app.listen({ hostname: "localhost", port: 8080 });
